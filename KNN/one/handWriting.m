@@ -16,7 +16,7 @@ for i=1:testNumber
 	realLabel=TestDataLabel(i);
 	if(realLabel~=guessLabel)
 		errorNumber=errorNumber+1;
-	end
+    end
 end
 accuracy=100-double(errorNumber)/double(testNumber)*100;
 

@@ -1,12 +1,22 @@
-function resultLabel=KNN(sample,trainData,trainLabel,k)
+function resultLabel=KNNs(sample,trainData,trainLabel,k,option1,option2)
+%input:
 	%sample      -one of TestData's feature vector,in this case the feature is every pixel
 	%trainData   -train data, cell matrix
 	%trainLabel  -train label,int arraylist
 	%k           -KNN's k,the number of selecting data
+	%option1     -the option of use which kind of distance,1-Manhattan Distance,2-Cosine similarity
+	%option2	 -the option of use which kind of voting way
+%output:
+	%resultLabel -the predit label of sample
 	N=length(trainLabel);
 	PointDistance=zeros(1,N);
 	for i=1:N
 		I=trainData{i};
+		if option1==1
+
+		elseif option1==2
+			
+		end
 		I=(sample-I).^2;
 		PointDistance(i)=sqrt(sum(I(:)));%distance
     end
@@ -22,3 +32,6 @@ function resultLabel=KNN(sample,trainData,trainLabel,k)
 	resultLabel=find(result==max(result))-1;
     resultLabel=resultLabel(1);
 end
+
+
+
