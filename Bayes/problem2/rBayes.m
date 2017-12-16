@@ -1,35 +1,41 @@
-function result=rBayes(data,risk,meanValue,variance,label)
+function [result,accuracy]=rBayes(meanValue,prior,convariance,riskMatrix,testData,label)
 %input:
-%data         -one sample of test data
-%riskMatrix   -risk Matrix 
-%meanValue    -the mean matrix ,the first row the mean of positive feature,second row is nagative features mean
-%variance     -the variance matrix,the first row the variance of positive feature,second row is nagative features variance
+	%meanValue         -matrix of mean of feature,each row is one label's feature mean
+	%prior             -vector of prior of label
+	%convariance       -convariance cell matrix
+	%testData          -test data for predicting the result,matrix
+	%riskMatrix        -risk matrix
+	%label             -the sort of label
 %output:
-%result       -the predict of test data
-n=length(label);
-prior=[double(1/3);double(2/3)];
-%first row is positive condition posibility function of features
-%second row is nagetive condition posibility function of features
-CondP=[(1/((2*pi)^(1/2)*variance(1,1)^2))*exp(-(data(1)-meanValue(1,1)).^2/(2*variance(1,1)^2)),  ( 1/((2*pi)^(1/2)*variance(1,2)^2))*exp(-(data(2)-meanValue(1,2)).^2/(2*variance(1,2)^2));
-(1/((2*pi)^(1/2)*variance(2,1)^2))*exp(-(data(1)-meanValue(2,1)).^2/(2*variance(2,1)^2)),(1/((2*pi)^(1/2)*variance(2,2)^2))*exp(-(data(2)-meanValue(2,2)).^2/(2*variance(2,2)^2))];
-[m,k]=size(CondP);
-condMatrix=ones(1,m);
-for i=1:m
-    for j=1:k
-        condMatrix(i)=condMatrix(i)*CondP(i,j);
-    end
-    condMatrix(i)=condMatrix(i)*prior(i);
-end
-condValue=[condMatrix;condMatrix];
-condValue=condValue.*risk;
-for i=1:m
-    condMatrix(i)=sum(condValue(i,:));
+	%result            -the predict label for testData
+	%accuracy          -the accuracy of rBayes
+labelNum=length(prior);
+featureNum=size(meanValue,1);
+testNum=size(testData,1);
+result=zeros(testNum,1);
+
+%get result
+
+for i=1:testNum
+	%count one result
+	currentData=testData(i,1:featureNum);
+	resultPos=zeros(labelNum,1);
+	pos=zeros(labelNum,1);
+	%get the posibility of label
+	for j=1:labelNum
+		mul=meanValue(j,:);
+		pos(j)=1/((2*pi)^(featureNum/2)*(det(convariance{j})^(1/2)))*exp(-1/2*(currentData-mul)*inv(convariance{j})*(currentData-mul)');
+		pos(j)=pos(j)*prior(j);
+	end
+	%count with risk matrix
+	resultPos=riskMatrix*pos;
+	result1=find(resultPos==min(resultPos));
+	result1=result1(1);
+	result(i)=label(result1);
 end
 
-[maxValue,result]=min(condMatrix);
-if result==1%because the label is 0 or 1,but index is 1 or 2
-    result=1;
-else
-    result=0;
-end
+%count the accuracy
+errorNum=0;
+errorNum=length(find(result~=testData(:,featureNum+1)));
+accuracy=(1-double(errorNum)/double(testNum))*100;
 end
