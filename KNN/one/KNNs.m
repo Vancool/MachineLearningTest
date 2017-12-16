@@ -20,16 +20,16 @@ function resultLabel=KNNs(sample,trainData,trainLabel,k,option1,option2)
 			%Manhattan distance
 			I=abs(sample-I);
 			PointDistance(i)=sum(I(:));
-		elseif option1==2
+		elseif option1==3
 			%Cosine similartity
 			K=I.*sample;
 			I=I.*I;
-			sample=sample.*sample;
-			if sum(I(:))==0||sum(sample(:))==0
+			sample1=sample.*sample;
+			if sum(I(:))==0||sum(sample1(:))==0
 				%if ==0 the function below is NaN
 				PointDistance(i)=inf;
-			else
-				PointDistance(i)=sum(K(:))/(sqrt(I(:))*sqrt(sample(:)));
+            else
+				PointDistance(i)=sum(K(:))/(sqrt(sum(I(:)))*sqrt(sum(sample1(:))));
 			end
 			
 		end
@@ -39,7 +39,12 @@ function resultLabel=KNNs(sample,trainData,trainLabel,k,option1,option2)
 	result=zeros(1,10);
 
 	for j=1:k
-		voteCol=find(PointDistance==min(PointDistance));%get the min distance col
+        if option1==3
+        	% Point distance in[-1,1],max distance is represent the better similarity between sample and data
+        	voteCol=find(PointDistance==max(PointDistance));
+        else
+        	voteCol=find(PointDistance==min(PointDistance));%get the min distance col
+        end
 	    voteCol=voteCol(1);
 		voteData=trainLabel(voteCol);
 		if option2==1
@@ -56,9 +61,14 @@ function resultLabel=KNNs(sample,trainData,trainLabel,k,option1,option2)
 				voteData=inf;
 			end
 			result(reLabel+1)=result(reLabel+1)+voteData;
-			PointDistance(voteCol)=inf;
-		end
-
+          
+			
+        end
+     if option1==3
+           PointDistance(voteCol)=-inf;
+     else
+           PointDistance(voteCol)=inf;   
+     end
 		
 	end
 	resultLabel=find(result==max(result))-1;

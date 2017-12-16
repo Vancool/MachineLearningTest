@@ -1,4 +1,4 @@
-function [accuracy guess]=handWriting(K,options)
+function [accuracy guess]=handWritingWithKNNs(K,options)
 %input:
 	%K               -KNN's K
 	%options         -a vector to select kind of distance and voting ways,[distance option,voting way option]
@@ -8,7 +8,7 @@ function [accuracy guess]=handWriting(K,options)
 %output:
 	%accuracy of KNN -accuracy
 	%guess           -the predict label of test data
-if (k-k/2)==0
+if (K-K/2)==0
 	disp('invalid input!')
 	return
 end
@@ -43,7 +43,7 @@ if(options(1)==1&&options(2)==1)
 elseif (options(1)==2&&options(2)==1)
 	disp('Manhattan Distance && voteing without weight')
 	accuracy
-elseif(options(1)==3&&options(3)==1)
+elseif(options(1)==3&&options(2)==1)
 	disp('Cosine similarity && voteing without weight')
 	accuracy
 elseif(options(1)==1&&options(2)==2)
@@ -52,7 +52,7 @@ elseif(options(1)==1&&options(2)==2)
 elseif (options(1)==2&&options(2)==2)
 	disp('Manhattan Distance && 1/(distance)^2')
 	accuracy
-elseif(options(1)==3&&options(3)==2)
+elseif(options(1)==3&&options(2)==2)
 	disp('Cosine similarity && 1/(distance)^2')
 	accuracy
 end
