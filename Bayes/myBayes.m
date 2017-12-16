@@ -11,7 +11,7 @@ function [result,trustPosibility]=myBayes(trainData,meanValue,prior,convariance,
 	%result            -the predict label for testData
 	%trustPosibility   -the [0-1]number using trianData to find if the myBayes is good learner for the data set
 labelNum=length(prior);
-featureNum=length(meanValue);
+featureNum=size(meanValue,2);
 testNum=size(testData,1);
 trainNum=size(trainData,1);
 result=zeros(testNum,1);
