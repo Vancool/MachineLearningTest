@@ -23,4 +23,4 @@ end
 xlabel('k')
 ylabel('accuracy %')
 title('accuracy gragh with different distance & voting weight')
-legend('Euclidean distance && voting without weight','Euclidean distance && 1/(distance)^2','Manhattan Distance && voting without weight','Manhattan Distance && 1/(distance)^2','Cosine similarity && voting without weight','Cosine similarity && 1/(distance)^2');
+legend('Euclidean distance && voting without weight','Euclidean distance && 1/(distance)^2','Manhattan Distance && voting without weight','Manhattan Distance && 1/(distance)^2','Cosine similarity && voting without weight','Cosine similarity &&similarity');

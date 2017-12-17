@@ -1,4 +1,10 @@
 function result=NBayesTest(number,data,FeaturePosibility)
+%input:
+%  	 number    				-the number of data for training 
+%	 data      				-the whole data
+%	 FeaturePosiibility 	-the feature 
+%output:
+%    result                 -accuracy
 	trainData=data(1:number,:);
 	testData=data(number+1:end,:);
 	n=size(testData,1);

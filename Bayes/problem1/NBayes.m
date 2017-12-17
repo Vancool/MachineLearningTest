@@ -1,11 +1,11 @@
 function [priors,likehood]=NBayes(data,featurePosibility)
 %input:
-%data               -dataMatrix
-%featurePosibility  -array of the number of type of features and labels
+    %data               -dataMatrix
+    %featurePosibility  -array of the number of type of features and labels
 %output:
-%priors          -array of P(c(i))
-%likehood        -cell matrix of condition probability P(x|c)
-%                 row is feature ,col is label
+    %priors          -array of P(c(i))
+    %likehood        -cell matrix of condition probability P(x|c)
+    %                 row is feature ,col is label
 
 %count priors
 m=length(featurePosibility);

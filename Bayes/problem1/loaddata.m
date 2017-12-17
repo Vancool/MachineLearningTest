@@ -114,4 +114,4 @@ for i=1:n
 	data(i,6)=safe;
 	data(i,7)=label;		
 end
-save data
+save data data

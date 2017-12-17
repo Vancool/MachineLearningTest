@@ -5,7 +5,7 @@ function [result,accuracy]=rBayes(meanValue,prior,convariance,riskMatrix,testDat
 	%convariance       -convariance cell matrix
 	%testData          -test data for predicting the result,matrix
 	%riskMatrix        -risk matrix
-	%label             -the sort of label
+	%label             -the sort of label value
 %output:
 	%result            -the predict label for testData
 	%accuracy          -the accuracy of rBayes

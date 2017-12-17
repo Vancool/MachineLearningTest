@@ -1,8 +1,11 @@
 function resultLabel=KNN(sample,trainData,trainLabel,k)
+%input:
 	%sample      -one of TestData's feature vector,in this case the feature is every pixel
 	%trainData   -train data, cell matrix
 	%trainLabel  -train label,int arraylist
 	%k           -KNN's k,the number of selecting data
+%output:
+	%resultLabel -the sample predict label
 	N=length(trainLabel);
 	PointDistance=zeros(1,N);
 	for i=1:N

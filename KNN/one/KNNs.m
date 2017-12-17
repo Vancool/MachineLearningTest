@@ -55,11 +55,16 @@ function resultLabel=KNNs(sample,trainData,trainLabel,k,option1,option2)
 		elseif option2==2
 			%weight:1/(distance)^2
 			reLabel=voteData;
-			if(PointDistance(voteCol)^2>0.0000001)
+            if option1==3
+                voteData=voteData*PointDistance(voteCol);
+            else
+               if(PointDistance(voteCol)^2>0.0000001)
 				voteData=voteData/(PointDistance(voteCol)^2);
-			else
-				voteData=inf;
-			end
+                else
+                    voteData=inf;
+               end 
+            end
+			
 			result(reLabel+1)=result(reLabel+1)+voteData;
           
 			

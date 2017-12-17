@@ -18,7 +18,7 @@ result=zeros(testNum,1);
 
 %get result
 
-for i=1:testData
+for i=1:testNum
 	%count one result
 	currentData=testData(i,:);
 	resultPos=zeros(labelNum,1);
@@ -26,7 +26,7 @@ for i=1:testData
 	%get the posibility of label
 	for j=1:labelNum
 		mul=meanValue(j,:);
-		pos(j)=1/((2*pi)^(featureNum/2)*(det(convariance{j})^(1/2)))*exp(-1/2*(currentData-mul)'*inv(convariance{j})*(currentData-mul));
+		pos(j)=1/((2*pi)^(featureNum/2)*(det(convariance{j})^(1/2)))*exp(-1/2*(currentData-mul)*inv(convariance{j})*(currentData-mul)');
 		pos(j)=pos(j)*prior(j);
 	end
 	%count with risk matrix
@@ -40,21 +40,23 @@ end
 errorNum=0;
 
 for i=1:trainNum
-	currentData=testData(i,1:featureNum);
+	currentData=trainData(i,1:featureNum);
 	resultPos=zeros(labelNum,1);
 	pos=zeros(labelNum,1);
 	%get the posibility of label
 	for j=1:labelNum
-		pos(j)=1/((2*pi)^(featureNum/2)*(det(convariance{j})^(1/2)))*exp(-1/2*(currentData-meanValue)'*inv(convariance{j})*(currentData-meanValue));
+        mul=meanValue(j,:);
+		pos(j)=1/((2*pi)^(featureNum/2)*(det(convariance{j})^(1/2)))*exp(-1/2*(currentData-mul)*inv(convariance{j})*(currentData-mul)');
 		pos(j)=pos(j)*prior(j);
 	end
 	%count with risk matrix
 	resultPos=riskMatrix*pos;
 	result1=find(resultPos==min(resultPos));
 	result1=result1(1);
-	if currentData(featureNum+1)~=label(result1)
+    result1=label(result1);
+	if trainData(i,featureNum+1)~=result1
 		errorNum=errorNum+1;
 	end
 end
-trust=1-double(errorNum)/double(trianNum);
+trustPosibility=1-double(errorNum)/double(trainNum);
 end

@@ -1,7 +1,9 @@
-%read http://blog.csdn.net/column/details/mlfromllp.html for reference
 function [accuracy guess]=handWriting(K)
-	%result -accuracy
+%input:
 	%K      -KNN's k
+%output:
+	%result -accuracy
+	%guess  -the predict label of testData.mat
 %load data
 load('testData.mat');%testData is a 946*1 Matrix cell
 load('TestDataLabel.mat');%TestDataLabel is 946 arraylist
