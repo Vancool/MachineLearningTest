@@ -9,7 +9,7 @@ function [result,performance]=myKmeans(k,data,center,N,tol)
 %output:
 %	result			-an	(k*1)cell matrix,one element is one class information including the E=sum(distance^2),class center and class data
 %	performance		-the performance of k-means ,
-%						 performance(1) is measure by E(average distance^2 of class(i))
+%						 performance(1) is measure by sum(distance^2 of class(i))
 %						 performance(2)	is measure by E(radius of class);
 if(size(center,1)~=k)
 	disp('wrong input:the number of center point must be equel with k!')
@@ -120,9 +120,9 @@ end
 	performance=zeros(2,1);
 	sumE=0;
 	for i=1:k
-		sumE=sumE+classE(i)/classSize(i);
+		sumE=sumE+classE(i);
 	end
-	performance(1)=sumE/k;
+	performance(1)=sumE;
 	%find the maximum radius
 		radius=zeros(k,1);
 		for i=1:size(data,1)

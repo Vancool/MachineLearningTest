@@ -13,11 +13,15 @@ function result=findFarDistance(k,data)
 	dis=zeros(m,1);
 	for i=2:k
 		for j=1:m
-			currentResult=result;
-			currentResult(i,:)=data(j,:);
-			dis(j)=max(sum((currentResult-result).^2));
+            maxValue=0;
+			for z=1:i-1
+                if(maxValue<norm(result(z,:)-data(j,:)))
+                	maxValue=norm(result(z,:)-data(j,:));
+                end
+            end
+            dis(j)=maxValue;
 		end
-		[maxValue,indexK]=max(dis);
+		[~,indexK]=max(dis);
 		result(i,:)=data(indexK,:);
 	end
 end

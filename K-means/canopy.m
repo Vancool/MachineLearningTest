@@ -1,4 +1,4 @@
-function [center,k]=cannopy(t,data)
+function [center,k]=canopy(t,data)
 %input:
 %	t 		-[t1,t2],to split the data
 %	data	-the data set
