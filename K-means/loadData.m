@@ -14,6 +14,5 @@ end
 
 label=data(:,1);
 trainData=data(:,2:end);
-save label label
 save trainData trainData
 
