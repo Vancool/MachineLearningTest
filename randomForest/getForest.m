@@ -1,4 +1,4 @@
-function [result feature]=getForest(k,trainData,labels)
+function result=getForest(k,trainData,labels)
 %get random forest
 %input:
 %	k			- number of decision trees
@@ -9,44 +9,20 @@ function [result feature]=getForest(k,trainData,labels)
 [n,m]=size(trainData);
 [partitionMatrix,activePartMatrix]=makePartitionMatrix(trainData);
 [a,b]=size(partitionMatrix);
-p=sum(sum(activePartMatrix)); 
-p=floor(log2(p));%the feature number in decision tree
+p=floor(log2(a));%the feature number in decision tree
 %build tree and store in the forest
 result=cell(1,k);
 for time=1:k
 	%origin the feature matrix
-    currentPartitionMatrix=zeros(a,b);
-    currentActivePartMatrix=zeros(a,b);
-    fe=zeros(2,p);
 	[partitionMatrix,activePartMatrix]=makePartitionMatrix(trainData);
 	%get random feature from partition matrix and active part matrix
-		for i=1:p
-			randomNum=randi([1 a*b]);
-			x=floor(randomNum/b);
-            y=randomNum-x*b;
-            if x~=a
-            x=x+1;
-            end
-			y=y+1;
-			if activePartMatrix(x,y)==0
-				while(activePartMatrix(x,y)==0)
-					randomNum=randi([1 a*b]);
-					x=floor(randomNum/b);
-                    y=randomNum-x*b;
-                    if x~=a
-                       x=x+1; 
-                    end               
-                    y=y+1;
-				end
-			end
-				activePartMatrix(x,y)=0;
-                currentPartitionMatrix(x,y)=partitionMatrix(x,y);
-                currentActivePartMatrix(x,y)=1;
-                fe(1,i)=x;
-                fe(2,i)=y;
-        end 
-        feature{time}=fe;
-	treeRoot=ID3Tree(trainData,currentPartitionMatrix,currentActivePartMatrix,labels);
+	index=randi(a,1,p);
+    while(length(unique(index))~=p)
+        index=randi(a,1,p);
+    end
+    index=setdiff([1:a],index);
+    activePartMatrix(index,:)=0;
+	treeRoot=ID3Tree(trainData,partitionMatrix,activePartMatrix,labels);
 	result{time}=treeRoot;
 end
 end

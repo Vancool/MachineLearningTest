@@ -2,14 +2,14 @@ clc,clear
 load('trainSet.mat');
 load('testSet.mat');
 m=length(trainSet);
-accuracySet=zeros(20,1);
-for k=1:20
+accuracySet=zeros(10,1);
+for k=1:10
 	for iteration=1:20
 		accuracy=0;
 		for i=1:m
 			currentTrainSet=trainSet{i};
 			currentTestSet=testSet{i};
-			[forest,feature]=getForest(k,currentTrainSet,[1 2 3]);
+			forest=getForest(k,currentTrainSet,[1 2 3]);
 			accuracy=accuracy+getAccuracy(currentTestSet,forest,[1 2 3]);
 		end
 		accuracy=accuracy/m;
@@ -17,7 +17,7 @@ for k=1:20
 	end
 	accuracySet(k)=accuracySet(k)/20;
 end
-k=[1:1:20];
+k=[1:1:10];
 plot(k,accuracySet,'r-*');
 title('k-accuracy gragh')
 xlabel('k (the tree number in forest)')
