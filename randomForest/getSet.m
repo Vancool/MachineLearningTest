@@ -28,8 +28,6 @@ for i=1:length(d)
 	
 end
 %now the cell have 4 features ,1 string label ,1 number label
-
-
 %transform the cell data into matrix
 oneMatrix=zeros(size1,5);
 twoMatrix=zeros(size2,5);
@@ -66,6 +64,36 @@ for i=1:size3
         end
     end
 end
+% 5-Cross-validation
+    indice1=crossvalind('Kfold',size1,5);
+    indice2=crossvalind('Kfold',size2,5);
+    indice3=crossvalind('Kfold',size3,5);
+    testSet=cell(5,1);
+    trainSet=cell(5,1);
+    for i=1:5
+        trainData=[];
+        testData=[];
+        test=(indice1==i);
+        train=~test;
+        trainData=oneMatrix(train,:);
+        testData=oneMatrix(test,:);
+        
+        test=(indice2==i);
+        train=~test;
+        trainData=[trainData;twoMatrix(train,:)];
+        testData=[testData;twoMatrix(test,:)];
+
+        test=(indice3==i);
+        train=~test;
+        trainData=[trainData;threeMatrix(train,:)];
+        testData=[testData;threeMatrix(test,:)];
+
+        testSet{i}=testData;
+        trainSet{i}=trainData;
+    end
+    save testSet testSet
+    save trainSet trainSet
+
 
 
 
