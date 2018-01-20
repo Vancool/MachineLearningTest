@@ -9,7 +9,7 @@ for k=1:10%number of tree in random forest
 		for i=1:m
 			currentTrainSet=trainSet{i};
 			currentTestSet=testSet{i};
-			forest=getForest(k,currentTrainSet,[1 2 3],1);
+			forest=getForest(k,currentTrainSet,[1 2 3],2);
 			accuracy=accuracy+getAccuracy(currentTestSet,forest,[1 2 3]);
 		end
 		accuracy=accuracy/m;%get accuracy of this time random forest model
@@ -22,7 +22,7 @@ end
 %y-the accuracy of random forest
 k=[1:1:10];
 plot(k,accuracySet,'r-*');
-title('ID3 tree : k-accuracy gragh')
+title('C4.5 tree : k-accuracy gragh')
 xlabel('k (the tree number in forest)')
 ylabel('average accuracy %')
 str=[num2str(accuracySet)];

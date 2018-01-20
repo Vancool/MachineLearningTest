@@ -1,9 +1,10 @@
-function result=getForest(k,trainData,labels)
+function result=getForest(k,trainData,labels,selection)
 %get random forest
 %input:
 %	k			- number of decision trees
 %	trainData	-data for training 
 %	labels 		-the labels array
+%	selection 	-the selection to choose which kind of tree you want to make,1-ID3 tree,2-C4.5 tree
 %output:
 % 	result		-forest, cell matrix containing k trees struct
 [n,m]=size(trainData);
@@ -22,7 +23,12 @@ for time=1:k
     end
     index=setdiff([1:a],index);
     activePartMatrix(index,:)=0;
-	treeRoot=ID3Tree(trainData,partitionMatrix,activePartMatrix,labels);
+    if selection==1
+		treeRoot=ID3Tree(trainData,partitionMatrix,activePartMatrix,labels);
+	end
+	if selection==2
+		treeRoot=C45Tree(trainData,partitionMatrix,activePartMatrix,labels);
+	end
 	result{time}=treeRoot;
 end
 end

@@ -39,8 +39,6 @@ for i=1:size1
         else
               oneMatrix(i,j)=str2num(data1{i}{j});
         end
-      
-       
     end
 end
 for i=1:size2
@@ -50,8 +48,6 @@ for i=1:size2
         else
             twoMatrix(i,j)=str2num(data2{i}{j}); 
         end
-       
-    
     end
 end
 for i=1:size3
@@ -64,36 +60,25 @@ for i=1:size3
         end
     end
 end
-% 5-Cross-validation
-    indice1=crossvalind('Kfold',size1,5);
-    indice2=crossvalind('Kfold',size2,5);
-    indice3=crossvalind('Kfold',size3,5);
-    testSet=cell(5,1);
-    trainSet=cell(5,1);
-    for i=1:5
+% bootstrap sampling
+    testSet=cell(10,1);
+    trainSet=cell(10,1);
+    for i=1:10
         trainData=[];
         testData=[];
-        test=(indice1==i);
-        train=~test;
-        trainData=oneMatrix(train,:);
-        testData=oneMatrix(test,:);
-        
-        test=(indice2==i);
-        train=~test;
-        trainData=[trainData;twoMatrix(train,:)];
-        testData=[testData;twoMatrix(test,:)];
-
-        test=(indice3==i);
-        train=~test;
-        trainData=[trainData;threeMatrix(train,:)];
-        testData=[testData;threeMatrix(test,:)];
-
+        [trainData,testData]=bootstrapSampling(oneMatrix);
+        [trainData1,testData1]=bootstrapSampling(twoMatrix);
+        trainData=[trainData;trainData1];
+        testData=[testData;testData1];
+        [trainData1,testData1]=bootstrapSampling(threeMatrix);
+        trainData=[trainData;trainData1];
+        testData=[testData;testData1];
         testSet{i}=testData;
         trainSet{i}=trainData;
     end
+
     save testSet testSet
     save trainSet trainSet
-
 
 
 
