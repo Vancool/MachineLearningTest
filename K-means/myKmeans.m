@@ -9,8 +9,10 @@ function [result,performance]=myKmeans(k,data,center,N,tol)
 %output:
 %	result			-an	(k*1)cell matrix,one element is one class information including the E=sum(distance^2),class center and class data
 %	performance		-the performance of k-means ,
-%						 performance(1) is measure by sum(distance^2 of class(i))
+%						 performance(1) is measure by sum(distance^2 of class(i)) (within-class scatter)
 %						 performance(2)	is measure by E(radius of class);
+%						 performance(3) is measure by Inter class divergence(between-class scatter)
+%						 performance(4) is measure by separtion criterion
 if(size(center,1)~=k)
 	disp('wrong input:the number of center point must be equel with k!')
 	return
@@ -135,4 +137,11 @@ end
 			end	
 		end
 		performance(2)=sum(radius)/k;
+		dataMeanVector=sum(data)/dataNum;
+		performance(3)=0;
+		for i=1:k
+			performance(3)=performance(3)+size(resultSet{i},1)*norm(meanVector(i,:)-dataMeanVector)^2;
+			performance(4)=performance(3)/performance(1);
+		end
+
 end
