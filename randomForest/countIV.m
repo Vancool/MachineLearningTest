@@ -1,4 +1,11 @@
 function result=countIV(lessSet,moreSet)
+	%count IV(a)
+%input:
+%	lessSet
+%	moreSet
+%			 -two set seperated by feature value 
+%output:
+%	result   -the value of  IV(a)
 	n=size(lessSet,1)+size(moreSet,1);%dataSet size
 	moreNum=size(moreSet,1);
 	lessNum=size(lessSet,1);
